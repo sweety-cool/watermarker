@@ -33,6 +33,8 @@ def main():
          try:
             data = json.loads(base64.b64decode(pubsub_message["data"]).decode())
             print("data",data)
+            print("name", {data.name})
+            print("bucket", {data.bucket})
          except Exception as e:
             msg = (
                 "Invalid Pub/Sub message: "
