@@ -2,6 +2,7 @@ import base64
 import json
 import os
 from flask import Flask, request
+from google.cloud import storage
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -47,7 +48,10 @@ def main():
                 "expected name and bucket properties"
             )
             print(f"error: {msg}")
+            print("name", {data.name})
+            print("bucket", {data.bucket})
             return f"Bad Request: {msg}", 400
+            
      try:
         im = Image.open(data)
         width, height = im.size
