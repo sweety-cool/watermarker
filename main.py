@@ -3,7 +3,7 @@ import json
 import os
 from flask import Flask, request
 from google.cloud import storage
-
+import logging
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -15,8 +15,8 @@ port = int(os.environ.get("PORT", 8080))
 
 @app.route("/",methods=["POST"])
 def main():
-     print("hello world")
-     return
+     logging.warning("hello world")
+     return ""
      envelope = request.get_json()
      if not envelope:
         msg = "no Pub/Sub message received"
