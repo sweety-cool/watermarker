@@ -15,17 +15,17 @@ port = int(os.environ.get("PORT", 8080))
 
 @app.route("/",methods=["POST"])
 def main():
-     logging.warning("hello world")
-     return ""
+     logging.debug("hello world")
+    
      envelope = request.get_json()
      if not envelope:
         msg = "no Pub/Sub message received"
-        print(f"error: {msg}")
+        logging.debug(f"error: {msg}")
         return f"Bad Request: {msg}", 400
 
      if not isinstance(envelope, dict) or "message" not in envelope:
         msg = "invalid Pub/Sub message format"
-        print(f"error: {msg}")
+        logging.debug(f"error: {msg}")
         return f"Bad Request: {msg}", 400
      
             # Decode the Pub/Sub message.
@@ -34,17 +34,17 @@ def main():
      if isinstance(pubsub_message, dict) and "data" in pubsub_message:
          try:
             data = json.loads(base64.b64decode(pubsub_message["data"]).decode())
-            print("data",data)
-            print("name", {data.name})
-            print("bucket", {data.bucket})
+            logging.debug("data",data)
+            logging.debug("name", {data.name})
+            logging.debug("bucket", {data.bucket})
          except Exception as e:
             msg = (
                 "Invalid Pub/Sub message: "
                 "data property is not valid base64 encoded JSON"
             )
-            print(f"error: {e}")
-            print("name", {data.name})
-            print("bucket", {data.bucket})
+            logging.debug(f"error: {e}")
+            logging.debug("name", {data.name})
+            logging.debug("bucket", {data.bucket})
             return f"Bad Request: {msg}", 400
          
     # Validate the message is a Cloud Storage event.
@@ -53,9 +53,9 @@ def main():
                 "Invalid Cloud Storage notification: "
                 "expected name and bucket properties"
             )
-            print(f"error: {msg}")
-            print("name", {data.name})
-            print("bucket", {data.bucket})
+            logging.debug(f"error: {msg}")
+            logging.debug("name", {data.name})
+            logging.debug("bucket", {data.bucket})
             return f"Bad Request: {msg}", 400
             
      try:
@@ -75,8 +75,8 @@ def main():
         return ("", 204)
 
      except Exception as e:
-            print(f"error: {e}")
-            return ("", 500)
+        logging.error(f"error: {e}")
+        return ("", 500)
      
     #  return ("", 500)
 
