@@ -16,7 +16,7 @@ port = int(os.environ.get("PORT", 8080))
 @app.route("/",methods=["POST"])
 def main():
      logging.debug("hello world")
-    
+     return ""
      envelope = request.get_json()
      if not envelope:
         msg = "no Pub/Sub message received"
